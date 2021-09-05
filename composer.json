@@ -1,0 +1,34 @@
+{
+    "name": "virtuspay/magento2-payment",
+    "description": "Magento 2 Aditum Payment",
+    "version": "0.0.1",
+    "require": {
+        "php": ">=7.1.0",
+        "aditum-payments/aditum-api-sdk-php": "^2.8",
+        "magento/framework": ">=102.0"
+    },
+    "type": "magento2-module",
+    "license": [
+        "GPL-3.0-or-later"
+    ],
+    "authors": [
+        {
+            "name": "Nibble One",
+            "email": "jackson.garcia@nibbleone.com.br",
+            "role": "Leader"
+        },
+        {
+            "name": "Gustavo Ulyssea",
+            "email": "gustavo.ulyssea@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "VirtusPay\\Magento2\\": ""
+        }
+    }
+}
