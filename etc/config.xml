@@ -2,16 +2,16 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <aditumcc>
+            <virtuspaycc>
                 <active>1</active>
                 <payment_action>order</payment_action>
-                <model>VirtusPay\Magento2\Model\Method\InstallmentsBillet</model>
+                <model>VirtusPay\Magento2\Model\Method\BoletoParcelado</model>
                 <title>Boleto Parcelado</title>
                 <order_status>pending</order_status>
                 <min_installment_value>5</min_installment_value>
                 <send_neworder_email>1</send_neworder_email>
                 <info_brl>1</info_brl>
-            </aditumcc>
+            </virtuspaycc>
         </payment>
     </default>
 </config>

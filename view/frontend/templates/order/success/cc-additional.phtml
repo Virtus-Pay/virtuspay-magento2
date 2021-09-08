@@ -1,0 +1,10 @@
+<?php
+/**
+ * @var \VirtusPay\Magento2\Block\CcSuccess $block
+ */
+
+if($block->getPaymentMethod() === "virtuspaycc"): ?>
+	<p>
+        Status do pedido: Pagamento sendo processado.
+	</p>
+<?php endif; ?>

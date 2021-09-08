@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block class="VirtusPay\Magento2\Block\BoletoSuccess"
+               name="virtuspay.order.success"
+               template="VirtusPay_Magento2::order/success/additional.phtml"
+               after="-">
+        </block>
+        <block class="VirtusPay\Magento2\Block\CcSuccess"
+               name="virtuspaycc.order.success"
+               template="VirtusPay_Magento2::order/success/cc-additional.phtml"
+               after="virtuspay.order.success">
+        </block>
+    </referenceContainer>
+</body>

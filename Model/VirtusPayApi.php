@@ -43,7 +43,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterFace
     public function getToken()
     {
         return $this->scopeConfig->getValue(
-            'dev/debug/template_hints',
+            'payment/virtuspay/token',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }

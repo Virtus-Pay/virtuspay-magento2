@@ -3,12 +3,12 @@
 
 
 ### Baixar módulo
-[link do packgist](https://packagist.org/packages/aditum/magento2-payment)
+[link do packgist](https://packagist.org/packages/virtuspay/magento2-payment)
 
 Na raiz do projeto executar o comando:
 
 ```shell
-composer require aditum/magento2-payment
+composer require virtuspay/magento2-payment
 ```
 
 ### Iniciar a configuração do módulo na loja
@@ -82,4 +82,4 @@ Stores > configuration > Sales > Payment Methods > others
 - **Valor percentual da multa**  
 
 ### Registrar webhook
-https://domínio/aditum/apicallback
+https://domínio/virtuspay/apicallback
