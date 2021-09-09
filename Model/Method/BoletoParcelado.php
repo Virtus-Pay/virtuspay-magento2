@@ -71,6 +71,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     }
     public function order(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
+        return $this;
         $this->logger->info('Boleto parcelado create Order');
         $this->logger->info(json_encode($payment->getAdditionalInformation(), true));
         $order = $payment->getOrder();

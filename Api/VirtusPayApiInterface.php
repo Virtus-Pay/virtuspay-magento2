@@ -2,13 +2,12 @@
 
 namespace VirtusPay\Magento2\Api;
 
-interface VirtusPayApiInterFace
+interface VirtusPayApiInterface
 {
     /**
-     * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return string
      */
-    public function getQuote(\Magento\Quote\Api\Data\CartInterface $quote): string;
+    public function getQuote(): string;
 
     /**
      * @param \Magento\Quote\Api\Data\CartInterface $quote

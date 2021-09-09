@@ -21,53 +21,13 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-        <div class="field name required">
-            <label data-bind="attr: {for: getCode() + '_boletofullname'}" class="label">
-                <span>Nome</span>
-            </label>
-            <div class="control">
-                <input type="text" name="boletofullname" class="input-text" max-width="300px"
-                       style="max-width:300px;!important" value=""
-                       data-bind="attr: {
-												value: getFullName(),
-												autocomplete: off,
-												id: getCode() + '_boletofullname',
-												title: $t('Nome'),
-												'data-container': getCode() + '-boletofullname',
-												'data-validate': JSON.stringify({'required':true})}"/>
-            </div>
-        </div>
-
-        <div class="field document required">
-            <label data-bind="attr: {for: getCode() + '_boletodocument'}" class="label">
-                <span><!-- ko i18n: 'CPF/CNPJ'--><!-- /ko --></span>
-            </label>
-            <div class="control">
-                <input type="text" name="boletodocument" class="input-text" style="max-width:300px;!important"
-                       max-width="300px" value="" required
-                       data-bind="attr: {
-													value: getTaxVat(),
-													autocomplete: off,
-													required: true,
-													id: getCode() + '_boletodocument',
-													title: $t('CPF/CNPJ'),
-													'data-container': getCode() + '-boletodocument',
-													'data-validate': JSON.stringify({'required':true})}"/>
-            </div>
-        </div>
-        <div class="field virtuspayboleto_terms" style="margin-top: 5px;">
-            <label data-bind="attr: {for: getCode() + '_terms'}" class="label">
-            </label>
-            <div class="control">
-                <input type="checkbox" name="virtuspayboleto_terms" class="checkbox" value=""
-                       data-bind="attr: {
-													autocomplete: off,
-													id: getCode() + '_terms',
-													'data-container': getCode() + '-terms',
-													'data-validate': JSON.stringify({'validate-terms':'#' + getCode() + '_terms'})
-												}"/>
-                <span data-bind="html: getTermsHtml()"></span>
-            </div>
+        <div class="field required">
+            Descubra as condições que temos para você e parcele<br>
+            sua compra no boleto em até 15x com a VirtusPay<br>
+            <button data-bind="click: getQuote" id="consult_installments" class="virtuspay_button">CONSULTAR PARCELAS</button><br>
+            * Importante<br>
+            * Iremos usar os dados de seu cadastro aqui na loja para consultas as condições que temos para você<br>
+            * Sujeito a análise de crédito
         </div>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->

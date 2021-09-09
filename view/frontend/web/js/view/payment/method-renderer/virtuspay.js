@@ -17,12 +17,17 @@ define(
                 template: 'VirtusPay_Magento2/payment/virtuspay'
             },
             initObservable: function () {
-                this._super()
-                    .observe([
-                        'boletofullname',
-                        'boletodocument'
-                    ]);
-
+                // this._super()
+                //     .observe([
+                //         'boletofullname',
+                //         'boletodocument'
+                //     ]);
+                //
+                // document.getElementById("consult_installments").addEventListener("click", function (event) {
+                //     event.preventDefault();
+                //     alert('entrei');
+                //     this.getQuote();
+                // });
                 return this;
             },
             getData: function () {
@@ -35,17 +40,8 @@ define(
                     }
                 };
             },
-            getInstruction: function() {
-                return window.checkoutConfig.payment.virtuspayboleto.instruction;
-            },
             getDue: function() {
                 return window.checkoutConfig.payment.virtuspayboleto.due;
-            },
-            getFullName: function() {
-                return window.checkoutConfig.payment.virtuspayboleto.fullname;
-            },
-            getTaxVat: function() {
-                return window.checkoutConfig.payment.virtuspayboleto.taxvat;
             },
             getQuote: function() {
                 $.ajax({
@@ -56,6 +52,7 @@ define(
                     }
                 }).done(function (msg) {
                     if (msg) {
+
                         $('span#notafiscal_txt').html($('input#notafiscal_input').val());
                         $('input#notafiscal_input').hide();
                         $('button#notafiscal_post_button').hide();

@@ -2,31 +2,50 @@
 
 namespace VirtusPay\Magento2\Model;
 
-class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterFace
+class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 {
     protected $token;
-    protected $quote;
-    protected $order;
     protected $scopeConfig;
+    protected $checkoutSession;
+    protected $remoteAddress;
 
     public function __construct(
-        \VirtusPay\VirtusPaySdkPhp\Controller\Quote $quote,
-        \VirtusPay\VirtusPaySdkPhp\Controller\Order $order,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
-        $this->quote = $quote;
-        $this->order = $order;
+        $this->checkoutSession = $checkoutSession;
         $this->scopeConfig = $scopeConfig;
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
      * @inheirtDoc
      */
 
-    public function getQuote(\Magento\Quote\Api\Data\CartInterface $quote): string
+    public function getQuote(): string
     {
-        $this->quote->setToken($this->getToken());
-        return "";
+        $quote = $this->checkoutSession->getQuote();
+        $totalAmount = $quote->getGrandTotal();
+        $taxvat = $quote->getCustomer()->getTaxvat();
+        $configuration = new \VirtusPay\ApiSDK\Configuration();
+        $configuration->setEnvironment('homolog');
+
+        $telephone = $quote->getShippingAddress()->getTelephone()
+
+        $model = new \VirtusPay\ApiSDK\Model\PreAprovacao(
+            $totalAmount,
+            $taxvat,
+            $telephone,
+            'ricardo@gmail.com',
+            $this->remoteAddress->getRemoteAddress(),
+            [],
+            '05846050'
+        );
+
+        $gateway = new \VirtusPay\ApiSDK\Gateway\PreAprovacao();
+        $response = $gateway->execute($model);
+
     }
 
     /**
@@ -40,7 +59,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterFace
     /**
      * @return mixed
      */
-    public function getToken()
+    protected function getToken()
     {
         return $this->scopeConfig->getValue(
             'payment/virtuspay/token',

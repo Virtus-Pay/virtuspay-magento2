@@ -7,7 +7,7 @@ use Magento\Payment\Helper\Data as PaymentHelper;
 
 class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider implements ConfigProviderInterface
 {
-    protected $methodCode = "aditumboleto";
+    protected $methodCode = "virtuspay";
 
     protected $method;
     protected $escaper;
@@ -33,7 +33,7 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
     {
         return $this->method->isAvailable() ? [
             'payment' => [
-                'aditumboleto' => [
+                'virtuspay' => [
                     'instruction' =>  $this->getInstruction(),
                     'due' => $this->getDue(),
                     'fullname' => $this->getFullName(),
