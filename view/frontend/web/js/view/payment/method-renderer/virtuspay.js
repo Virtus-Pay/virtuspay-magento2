@@ -7,9 +7,11 @@
 define(
     [
         'Magento_Checkout/js/view/payment/default',
-        'jquery'
+        'jquery',
+        'ko',
+        'mage/storage'
     ],
-    function (Component,$) {
+    function (Component,$,ko,storage) {
         'use strict';
 
         return Component.extend({
@@ -17,7 +19,9 @@ define(
                 template: 'VirtusPay_Magento2/payment/virtuspay'
             },
             initObservable: function () {
-                // this._super()
+                this._super();
+
+
                 //     .observe([
                 //         'boletofullname',
                 //         'boletodocument'
@@ -25,7 +29,6 @@ define(
                 //
                 // document.getElementById("consult_installments").addEventListener("click", function (event) {
                 //     event.preventDefault();
-                //     alert('entrei');
                 //     this.getQuote();
                 // });
                 return this;
@@ -44,28 +47,22 @@ define(
                 return window.checkoutConfig.payment.virtuspayboleto.due;
             },
             getQuote: function() {
-                $.ajax({
-                    url: '/rest/V1/virtuspay/quote',
-                    type: 'GET',
-                    beforeSend: function(xhr){
-                        //Empty to remove magento's default handler
-                    }
-                }).done(function (msg) {
+                jQuery('body').trigger('processStart');
+                //        post: function (url, data, global, contentType, headers) {
+                storage.post(
+                    'rest/V1/virtuspay/quote',
+                    "",
+                    true
+                ).done(function (msg) {
                     if (msg) {
-
-                        $('span#notafiscal_txt').html($('input#notafiscal_input').val());
-                        $('input#notafiscal_input').hide();
-                        $('button#notafiscal_post_button').hide();
-                        $('span#notafiscal_txt').show();
-                        $('button#notafiscal_edit_button').show();
-                    } else {
-                        $('span#notafiscal_error').html($t('Error saving url.'));
-                        $('span#notafiscal_error').show();
+                        window.obJson = JSON.parse(msg);
+                        $("")
                     }
-                }).fail(function (jqXHR, textStatus, msg) {
-                    $('span#notafiscal_error').html($t('Error saving url: ' + msg));
-                    $('span#notafiscal_error').show();
+                    jQuery('body').trigger('processStop');
+                }).fail(function (msg) {
+                    jQuery('body').trigger('processStop');
                 });
+
             }
         });
     }

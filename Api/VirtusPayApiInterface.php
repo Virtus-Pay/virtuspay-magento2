@@ -5,9 +5,9 @@ namespace VirtusPay\Magento2\Api;
 interface VirtusPayApiInterface
 {
     /**
-     * @return string
+     * @return ApiResponseInterface
      */
-    public function getQuote(): string;
+    public function getQuote(): ApiResponseInterface;
 
     /**
      * @param \Magento\Quote\Api\Data\CartInterface $quote

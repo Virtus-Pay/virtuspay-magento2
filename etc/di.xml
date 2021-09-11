@@ -2,4 +2,5 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="VirtusPay\Magento2\Api\VirtusPayApiInterface" type="VirtusPay\Magento2\Model\VirtusPayApi"/>
+    <preference for="VirtusPay\Magento2\Api\ApiResponseInterface" type="VirtusPay\Magento2\Model\ApiResponse"/>
 </config>

@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-        <route method="GET" url="/V1/virtuspay/brand/:ccNumber">
-            <service class="VirtusPay\Magento2\Api\VirtusPay" method="getCcBrand"/>
+        <route method="POST" url="/V1/virtuspay/quote">
+            <service class="VirtusPay\Magento2\Api\VirtusPayApiInterface" method="getQuote"/>
             <resources>
-                <resource ref="anonymous"/>
+                <resource ref="self"/>
             </resources>
         </route>
 </routes>
