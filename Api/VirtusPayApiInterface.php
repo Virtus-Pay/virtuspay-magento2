@@ -12,5 +12,5 @@ interface VirtusPayApiInterface
     /**
      * @return string
      */
-    public function createOrder(): string;
+    public function createOrder($order): string;
 }

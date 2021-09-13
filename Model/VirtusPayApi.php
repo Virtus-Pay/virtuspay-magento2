@@ -118,7 +118,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
     /**
      * @inheirtDoc
      */
-    public function createOrder(): string
+    public function createOrder($order): string
     {
         $configuration = new \VirtusPay\ApiSDK\Configuration();
         $configuration->setEnvironment($this->helperData->getEnvironment());
@@ -175,10 +175,10 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $quote->getCustomerDob(), $customerAddress
         );
 
-        $return_url = self::RETURN_URL.$quote->getReservedOrderId()."&closed=true";
+        $return_url = self::RETURN_URL.$order->getIncrementId()."&closed=true";
 
-        $order = new \VirtusPay\ApiSDK\Model\Order(
-            $quote->getReservedOrderId(), $customer, $deliveryAddress, $modelItems, $quote->getGrandTotal(),
+        $orderSDK = new \VirtusPay\ApiSDK\Model\Order(
+            $order->getIncrementId(), $customer, $deliveryAddress, $modelItems, $order->getGrandTotal(),
             $this->checkoutSession->getInstallments(),
             $ordersProducts, self::CALLBACK,
             $return_url, "checkout",
@@ -186,7 +186,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         );
 
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
-        $response = $gateway->save($order);
+        $response = $gateway->save($orderSDK);
 
         return $response;
     }
