@@ -71,11 +71,10 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     }
     public function order(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-        return $this;
         $this->logger->info('Boleto parcelado create Order');
         $this->logger->info(json_encode($payment->getAdditionalInformation(), true));
         $order = $payment->getOrder();
-        if (!$result = $this->virtusPayApi->createOrder($order, $payment)) {
+        if (!$result = $this->virtusPayApi->createOrder($order)) {
             $message = 'Houve um erro processando seu pedido. Por favor entre em contato conosco.';
             $this->messageManager
                 ->addError($message);
