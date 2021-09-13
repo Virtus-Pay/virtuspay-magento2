@@ -48,15 +48,14 @@ define(
             },
             getQuote: function() {
                 jQuery('body').trigger('processStart');
-                //        post: function (url, data, global, contentType, headers) {
                 storage.post(
                     'rest/V1/virtuspay/quote',
                     "",
                     true
                 ).done(function (msg) {
                     if (msg) {
-                        window.obJson = JSON.parse(msg);
-                        $("")
+                        let objecto = JSON.parse(msg);
+
                     }
                     jQuery('body').trigger('processStop');
                 }).fail(function (msg) {
