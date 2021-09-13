@@ -13,7 +13,7 @@ class ApiResponse implements ApiResponseInterface
         $this->response = $response;
         return true;
     }
-    public function getResponse(): string
+    public function getResponse(): \stdClass
     {
         return $this->response;
     }

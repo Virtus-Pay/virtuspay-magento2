@@ -8,10 +8,10 @@ interface ApiResponseInterface
      * @param $response
      * @return bool
      */
-    public function setResponse($response): bool;
+    public function setResponse($response);
 
     /**
-     * @return string
+     * @return \stdClass
      */
-    public function getResponse(): string;
+    public function getResponse(): \stdClass;
 }

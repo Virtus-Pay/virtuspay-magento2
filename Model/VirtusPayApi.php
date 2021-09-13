@@ -66,8 +66,9 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
   ],
   "cet": "77,61% a.a."
 }';
-
-        $this->apiResponse->setResponse($return);
+        echo $return;
+        die();
+        $this->apiResponse->setResponse(json_decode($return,true));
         return $this->apiResponse;
         $quote = $this->checkoutSession->getQuote();
         $totalAmount = $quote->getGrandTotal();

@@ -21,7 +21,7 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-        <div class="field virtuspay-consult-installments">
+        <div class="virtuspay-consult-installments">
             Descubra as condições que temos para você e parcele<br>
             sua compra no boleto em até 15x com a VirtusPay<br>
             <button data-bind="click: getQuote" id="consult_installments" class="virtuspay_button">CONSULTAR PARCELAS</button><br>
@@ -29,8 +29,16 @@
             * Iremos usar os dados de seu cadastro aqui na loja para consultas as condições que temos para você<br>
             * Sujeito a análise de crédito
         </div>
-        <div class="field virtuspay-installments-list" style="display: none;">
+        <div class="virtuspay-installments-list" style="display: none;">
+            <select name="virtuspay-installments" id="virtuspay-installments" data-bind="event:{ select: changeSelect()}">
+                <option value=""></option>
+            </select><br><br>
+            <div id="virtuspay-installment-details" style="display: none;">
 
+            </div>
+            <input type="hidden" name="virtuspay-quote-id" id="virtuspay-quote-id" value="">
+        </div>
+        <div class="virtuspay-message" style="display: none;" >
         </div>
         <script>
             document.getElementById("consult_installments").addEventListener("click", function (event) {
