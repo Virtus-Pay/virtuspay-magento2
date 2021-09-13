@@ -2,7 +2,7 @@
 
 namespace VirtusPay\Magento2\Block;
 
-class BoletoSuccess //  extends \Magento\Checkout\Block\Onepage\Success
+class BoletoSuccess extends \Magento\Checkout\Block\Onepage\Success
 {
     protected $checkoutSession;
 

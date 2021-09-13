@@ -2,8 +2,6 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-/*browser:true*/
-/*global define*/
 define(
     [
         'Magento_Checkout/js/view/payment/default',
@@ -21,15 +19,6 @@ define(
             },
             initObservable: function () {
                 this._super();
-                //     .observe([
-                //         'boletofullname',
-                //         'boletodocument'
-                //     ]);
-                //
-                // document.getElementById("consult_installments").addEventListener("click", function (event) {
-                //     event.preventDefault();
-                //     this.getQuote();
-                // });
                 return this;
             },
             getData: function () {
@@ -45,7 +34,7 @@ define(
             getDue: function () {
                 return window.checkoutConfig.payment.virtuspayboleto.due;
             },
-            changeSelect: function() {
+            changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
                     event.preventDefault();
                     jQuery('#virtuspay-installment-details').html('' +
@@ -70,8 +59,7 @@ define(
                             jQuery('.virtuspay-message').html($t(txt));
                             jQuery('.virtuspay-consult-installments').hide();
                             jQuery('.virtuspay-message').show();
-                        }
-                        else if (json.preapproved === true) {
+                        } else if (json.preapproved === true) {
                             jQuery('#virtuspay-quote-id').val(json.id);
                             window.virtuspay.total_amount = json.total_ammount;
                             window.virtuspay.cet = json.cet;
