@@ -176,10 +176,11 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         );
 
         $return_url = self::RETURN_URL.$order->getIncrementId()."&closed=true";
+        $installments = (is_null($this->checkoutSession->getInstallments())) ? 1 : $this->checkoutSession->getInstallments();
 
         $orderSDK = new \VirtusPay\ApiSDK\Model\Order(
             $order->getIncrementId(), $customer, $deliveryAddress, $modelItems, $order->getGrandTotal(),
-            $this->checkoutSession->getInstallments(),
+            $installments,
             $ordersProducts, self::CALLBACK,
             $return_url, "checkout",
             $this->checkoutSession->getPreapproved()

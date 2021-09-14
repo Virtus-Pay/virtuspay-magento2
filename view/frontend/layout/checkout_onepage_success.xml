@@ -11,5 +11,11 @@
                template="VirtusPay_Magento2::order/success/cc-additional.phtml"
                after="virtuspay.order.success">
         </block>
+
+        <block class="VirtusPay\Magento2\Block\VirtusPay"
+               name="virtuspaycc.order.success"
+               template="VirtusPay_Magento2::order/success/virtus-pay.phtml"
+               after="virtuspay.order.success">
+        </block>
     </referenceContainer>
 </body>
