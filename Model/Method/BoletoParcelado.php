@@ -19,7 +19,6 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_minAmount = null;
     protected $_maxAmount = null;
     protected $_supportedCurrencyCodes = ['BRL'];
-    protected $_infoBlockType = \VirtusPay\Magento2\Block\Info\VirtusPay::class;
     protected $_debugReplacePrivateDataKeys = ['number', 'exp_month', 'exp_year', 'cvc'];
     protected $adminSession;
     protected $messageManager;
@@ -80,28 +79,18 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
                 ->addError($message);
             throw new \Magento\Framework\Validator\Exception(__($message));
         }
-        $result = json_decode(json_encode($result),true);
+        $result = json_decode($result,true);
 
-        if (!isset($result['status']) || $result['status'] !== "PreAuthorized"
-            && $result['status'] !== "Authorized") {
+        if (!isset($result['status']) || $result['status'] !== "P"
+            && $result['status'] !== "A") {
             $message = 'Houve um erro processando seu pedido. Por favor entre em contato conosco.';
             $this->messageManager->addError($message);
             throw new \Magento\Framework\Validator\Exception(__($message));
         }
         $this->updateOrderRaw($order->getIncrementId());
-        $order->setExtOrderId(str_replace("-","",$result['charge']['id']));
-        $order->addStatusHistoryComment('ID Aditum: '.$result['charge']['id']);
-        $payment->setAdditionalInformation('uuid',$result['charge']['id']);
-        $payment->setAdditionalInformation('virtuspayNumber',$result['charge']['transactions'][0]['virtuspayNumber']);
-        $payment->setAdditionalInformation('transactionId',$result['charge']['transactions'][0]['transactionId']);
-        $payment->setAdditionalInformation('digitalLine',$result['charge']['transactions'][0]['digitalLine']);
-        $payment->setAdditionalInformation('barcode',$result['charge']['transactions'][0]['barcode']);
-        $payment->setAdditionalInformation('bankSlipId',$result['charge']['transactions'][0]['bankSlipId']);
-        $payment->setAdditionalInformation('bankIssuerId',$result['charge']['transactions'][0]['bankIssuerId']);
-        $payment->setAdditionalInformation('status',$result['status']);
 
-        $payment->setAdditionalInformation('boleto_url',$this->api->getBoletoUrl($result));
-        if ($result['status'] == "Authorized"){
+        $payment->setAdditionalInformation('link_virtus_pay', $result['links'][3]['href']);
+        if ($result['status'] == "A"){
             $this->invoiceOrder($order);
         }
         return $this;

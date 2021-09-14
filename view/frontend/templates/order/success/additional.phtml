@@ -16,6 +16,12 @@ if($block->getPaymentMethod() === "virtuspayboleto"): ?>
 		</a>
 	</p>
 
+    <p>
+        <a href="<?php echo $block->getLinkVirtusPay(); ?>" target="_blank" class="action primary continue">
+            <?php echo __('The Link System VirtusPay') ?>
+        </a>
+    </p>
+
 	<script type="text/javascript">
         document.getElementById("copyButton").addEventListener("click", function() {
 		    copyToClipboard(document.getElementById("copyTarget"));
