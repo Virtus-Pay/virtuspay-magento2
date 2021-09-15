@@ -6,13 +6,12 @@ use VirtusPay\Magento2\Api\ApiResponseInterface;
 use VirtusPay\Magento2\Helper\Data as HelperData;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Directory\Model\RegionFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 {
 
     const CALLBACK = "https://www.minhaloja.com.br/api2/virtus_callback";
-
-    const RETURN_URL = "https://www.minhaloja.com.br/checkout?order=";
 
     protected $checkoutSession;
 
@@ -28,6 +27,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 
     protected $helperData;
 
+    protected $storedManager;
+
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
@@ -35,7 +36,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         ApiResponseInterface $apiResponse,
         CategoryRepositoryInterface $categoryRepositoryInterface,
         RegionFactory $regionFactory,
-        HelperData $helperData
+        HelperData $helperData,
+        StoreManagerInterface $storeManager
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->remoteAddress = $remoteAddress;
@@ -44,6 +46,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $this->categoryRepositoryInterface = $categoryRepositoryInterface;
         $this->regionFactory = $regionFactory;
         $this->helperData = $helperData;
+        $this->storedManager = $storeManager;
     }
 
     /**
@@ -175,7 +178,9 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $quote->getCustomerDob(), $customerAddress
         );
 
-        $return_url = self::RETURN_URL.$order->getIncrementId()."&closed=true";
+        $url = $this->storedManager->getStore()->getBaseUrl();
+
+        $return_url = $url."checkout/onepage/success/";
         $installments = (is_null($this->checkoutSession->getInstallments())) ? 1 : $this->checkoutSession->getInstallments();
 
         $orderSDK = new \VirtusPay\ApiSDK\Model\Order(

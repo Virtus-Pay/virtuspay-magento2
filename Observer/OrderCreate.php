@@ -13,6 +13,7 @@ class OrderCreate implements ObserverInterface
     protected $_transactionFactory;
     protected $logger;
     protected $_orderRepository;
+    protected $responseFactory;
 
     public function __construct(
         \Magento\Sales\Api\Data\OrderInterface $order,
@@ -20,13 +21,15 @@ class OrderCreate implements ObserverInterface
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Sales\Model\OrderRepository $orderRepository,
-        \Magento\Framework\DB\TransactionFactory $transactionFactory
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
+        \Magento\Framework\App\ResponseFactory $responseFactory
     ) {
         $this->_order = $order;
         $this->_invoiceService = $invoiceService;
         $this->_orderRepository = $orderRepository;
         $this->_transactionFactory = $transactionFactory;
         $this->logger = $logger;
+        $this->responseFactory = $responseFactory;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -69,6 +72,12 @@ class OrderCreate implements ObserverInterface
             $order->setState('new')->setStatus('pending');
             $payment->setAdditionalInformation('order_created', '1');
             $order->save();
+        }
+
+        $link = $payment->getAdditionalInformation('link_virtus_pay');
+
+        if (!empty($link)) {
+            $this->responseFactory->create()->setRedirect($link)->sendResponse();
         }
     }
     public function invoiceOrder($order)
