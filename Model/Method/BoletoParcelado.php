@@ -92,9 +92,9 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $this->updateOrderRaw($order->getIncrementId());
 
         $payment->setAdditionalInformation('link_virtus_pay', $result['links'][3]['href']);
-        if ($result['status'] == "A"){
-            $this->invoiceOrder($order);
-        }
+//        if ($result['status'] == "A"){
+//            $this->invoiceOrder($order);
+//        }
         return $this;
     }
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)

@@ -51,6 +51,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $this->helperData = $helperData;
         $this->storedManager = $storeManager;
         $this->logger = $logger;
+        $this->checkoutSession->setPreapproved(null);
     }
 
     /**
@@ -93,20 +94,21 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $gateway = new \VirtusPay\ApiSDK\Gateway\PreAprovacao();
         $response = $gateway->execute($model);
 
-        $this->definePreapprovved($response);
+        $this->definePreApproved($response);
 
         $this->apiResponse->setResponse($response);
         return $this->apiResponse;
     }
 
-    private function definePreapprovved($response)
+    private function definePreApproved($response)
     {
         $data = json_decode($response, true);
         $id = $data['id'];
         $installments = $data['installments'];
         $inst = (is_null($installments)) ? 1 : $installments;
-
-        $this->checkoutSession->setPreapproved($id);
+        if ($data['preapproved']) {
+            $this->checkoutSession->setPreapproved($id);
+        }
         $this->checkoutSession->setInstallments($inst);
     }
 
