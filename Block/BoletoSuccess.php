@@ -46,4 +46,9 @@ class BoletoSuccess extends \Magento\Checkout\Block\Onepage\Success
     {
         return $this->getOrder()->getPayment()->getMethod();
     }
+
+    public function getLinkVirtusPay()
+    {
+        return $this->getOrder()->getPayment()->getAdditionalInformation('link_virtus_pay');
+    }
 }
