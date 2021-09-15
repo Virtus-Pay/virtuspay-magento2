@@ -105,7 +105,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $data = json_decode($response, true);
         $id = $data['id'];
         $installments = $data['installments'];
-        $inst = (is_null($installments)) ? 1 : $installments;
+        $inst = ($installments === null) ? 1 : $installments;
         if ($data['preapproved']) {
             $this->checkoutSession->setPreapproved($id);
         }
@@ -127,7 +127,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
     /**
      * @inheirtDoc
      */
-    public function createOrder($order,$payment): string
+    public function createOrder($order, $payment): string
     {
         $configuration = new \VirtusPay\ApiSDK\Configuration();
         $configuration->setEnvironment($this->helperData->getEnvironment());
@@ -144,7 +144,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
                 $itemSDK[$k]['price'] = $item->getPrice();
                 $itemSDK[$k]['detail'] = $item->getSku();
                 $itemSDK[$k]['quantity'] = $item->getQty();
-                $itemSDK[$k]['category'] = $this->getCategoryDescription((int) $item->getProduct()->getCategoryIds()[0]);
+                $itemSDK[$k]['category'] =
+                    $this->getCategoryDescription((int) $item->getProduct()->getCategoryIds()[0]);
                 $productsOrders[] = $item->getName();
             }
 
@@ -192,19 +193,26 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $url = $this->storedManager->getStore()->getBaseUrl();
 
         $return_url = $url."checkout/onepage/success/";
-        $installments = (is_null($this->checkoutSession->getInstallments())) ? 1 : $this->checkoutSession->getInstallments();
+        $installments = 1;
+        if ($payment->getAdditionalData('installments')) {
+            $installments = $payment->getAdditionalData('installments');
+        }
 
         $orderSDK = new \VirtusPay\ApiSDK\Model\Order(
-            $order->getIncrementId(), $customer, $deliveryAddress, $modelItems, $order->getGrandTotal(),
+            $order->getIncrementId(),
+            $customer,
+            $deliveryAddress,
+            $modelItems,
+            $order->getGrandTotal(),
             $installments,
-            $ordersProducts, self::CALLBACK,
-            $return_url, "checkout",
+            $ordersProducts,
+            self::CALLBACK,
+            $return_url,
+            "checkout",
             $this->checkoutSession->getPreapproved()
         );
 
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
-        $response = $gateway->save($orderSDK);
-
-        return $response;
+        return $gateway->save($orderSDK);
     }
 }

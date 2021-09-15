@@ -45,30 +45,7 @@ class OrderCreate implements ObserverInterface
         $order = $this->_orderRepository->get($order->getId());
         $payment = $order->getPayment();
         $method = $payment->getMethod();
-        if ($method=="virtuspaycc") {
-            $this->logger->info("Observer - virtuspaycc");
-            if ($payment->getAdditionalInformation('status')=='PreAuthorized'
-                && $payment->getAdditionalInformation('callbackStatus') !== 'Authorized') {
-                $this->logger->info("Observer - set new");
-                $order->setState('new')->setStatus('pending'); /// corrigir //////////////////////////
-                $order->save();
-            }
-            if ($payment->getAdditionalInformation('status')=='Authorized'
-                && $payment->getAdditionalInformation('callbackStatus')!=='NotAuthorized') {
-                if (!$order->hasInvoices()) {
-                    $this->invoiceOrder($order);
-                }
-            }
-            if ($payment->getAdditionalInformation('status')=='NotAuthorized'
-                && $payment->getAdditionalInformation('callbackStatus') !== 'NotAuthorized') {
-                if ($order->getState()!='canceled') {
-                    $this->cancelOrder($order);
-                }
-            }
-            $payment->setAdditionalInformation('order_created', '1');
-            $payment->save();
-        }
-        if ($method=="virtuspayboleto") {
+        if ($method=="virtuspay") {
             $order->setState('new')->setStatus('pending');
             $payment->setAdditionalInformation('order_created', '1');
             $order->save();
@@ -89,7 +66,7 @@ class OrderCreate implements ObserverInterface
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-        $order->setState('processing')->setStatus('processing');// corrigir
+        $order->setState('processing')->setStatus('processing');
         $order->save();
     }
     public function cancelOrder($order)
