@@ -11,7 +11,7 @@ interface ApiResponseInterface
     public function setResponse($response);
 
     /**
-     * @return \stdClass
+     * @return string
      */
-    public function getResponse(): \stdClass;
+    public function getResponse(): string;
 }

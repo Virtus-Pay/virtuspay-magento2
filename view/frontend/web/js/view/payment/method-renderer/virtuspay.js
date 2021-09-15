@@ -25,9 +25,9 @@ define(
                 return {
                     'method': this.item.method,
                     'additional_data': {
-                        'boletofullname': jQuery('#'+this.getCode() + '_boletofullname').val(),
-                        'boletodocument': jQuery('#'+this.getCode() + '_boletodocument').val(),
-                        'antifraud_token': jQuery('#antifraud_token').val()
+                        'installments': jQuery('#'+this.getCode() + '-installments').val(),
+                        'quoteid': jQuery('#virtuspay-quote-id').val(),
+                        'pre_approved':  window.virtuspay.preApproved
                     }
                 };
             },
@@ -52,14 +52,16 @@ define(
                 ).done(function (msg) {
                     if (msg) {
                         console.log(msg);
-                        window.obJson = JSON.parse(msg);
-                        var json = window.obJson;
+                        window.virtuspay.cet = "";
+                        var json = JSON.parse(msg.response);
                         if (json.preapproved === false) {
+                            window.virtuspay.preApproved = false;
                             var txt = 'No pre-approved conditions found.';
                             jQuery('.virtuspay-message').html($t(txt));
                             jQuery('.virtuspay-consult-installments').hide();
                             jQuery('.virtuspay-message').show();
                         } else if (json.preapproved === true) {
+                            window.virtuspay.preApproved = true;
                             jQuery('#virtuspay-quote-id').val(json.id);
                             window.virtuspay.total_amount = json.total_ammount;
                             window.virtuspay.cet = json.cet;

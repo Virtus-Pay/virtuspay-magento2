@@ -29,6 +29,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 
     protected $storedManager;
 
+    protected $logger;
+
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
@@ -37,7 +39,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         CategoryRepositoryInterface $categoryRepositoryInterface,
         RegionFactory $regionFactory,
         HelperData $helperData,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->remoteAddress = $remoteAddress;
@@ -47,6 +50,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $this->regionFactory = $regionFactory;
         $this->helperData = $helperData;
         $this->storedManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -121,7 +125,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
     /**
      * @inheirtDoc
      */
-    public function createOrder($order): string
+    public function createOrder($order,$payment): string
     {
         $configuration = new \VirtusPay\ApiSDK\Configuration();
         $configuration->setEnvironment($this->helperData->getEnvironment());
@@ -168,6 +172,10 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $shippingAddress->getPostcode(),
             $shippingAddress->getStreet()[$this->helperData->getComplement()]
         );
+        $dob = $quote->getCustomerDob();
+        if (!$dob) {
+            $dob = "1980-01-01";
+        }
 
         $customer = new \VirtusPay\ApiSDK\Model\Customer(
             $customer->getFirstname() . " " . $customer->getLastname(),
@@ -175,7 +183,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             1500.00,
             $customer->getEmail(),
             $shippingAddress->getTelephone(),
-            $quote->getCustomerDob(), $customerAddress
+            $dob,
+            $customerAddress
         );
 
         $url = $this->storedManager->getStore()->getBaseUrl();
