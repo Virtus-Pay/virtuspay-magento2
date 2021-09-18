@@ -21,6 +21,14 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+        <div class="div-virtuspay-dob">
+            <label for="virtuspay-dob" class="label">
+                <span>Data de nascimento</span>
+            </label>
+            <input type="text" size="20" name="virtuspay-dob"  class="input-text" id="virtuspay-dob"
+                   style="max-width: 50px!important;"
+                   data-bind="attr: { value: dobMask(), change: dobMask(), visible: true"/>
+        </div>
         <div class="virtuspay-consult-installments">
             Descubra as condições que temos para você e parcele<br>
             sua compra no boleto em até 15x com a VirtusPay<br>

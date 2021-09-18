@@ -80,7 +80,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $quote->getCustomer()->getEmail(),
             $this->remoteAddress->getRemoteAddress(),
             $othersInfo,
-            $postcode
+            str_replace("-","",$postcode)
         );
 
         if (empty($taxvat)) {
@@ -160,7 +160,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $billingAddres->getStreet()[$this->helperData->getDistrict()],
             $billingAddres->getStreet()[$this->helperData->getStreet()],
             $billingAddres->getStreet()[$this->helperData->getNumber()],
-            $billingAddres->getPostcode(),
+            str_replace("-", "", $billingAddres->getPostcode()),
             $billingAddres->getStreet()[$this->helperData->getComplement()]
         );
 
@@ -172,12 +172,12 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $shippingAddress->getStreet()[$this->helperData->getDistrict()],
             $shippingAddress->getStreet()[$this->helperData->getStreet()],
             $shippingAddress->getStreet()[$this->helperData->getNumber()],
-            $shippingAddress->getPostcode(),
+            str_replace("-", "", $billingAddres->getPostcode()),
             $shippingAddress->getStreet()[$this->helperData->getComplement()]
         );
         $dob = $quote->getCustomerDob();
         if (!$dob) {
-            $dob = "1980-01-01";
+            $dob = "1900-01-01";
         }
 
         $customer = new \VirtusPay\ApiSDK\Model\Customer(
@@ -209,9 +209,9 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             self::CALLBACK,
             $return_url,
             "checkout",
-            $this->checkoutSession->getPreapproved()
+            $payment->getAdditionalData('quoteid')
         );
-
+//        $this->checkoutSession->getPreapproved()
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
         return $gateway->save($orderSDK);
     }

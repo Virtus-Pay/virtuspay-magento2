@@ -8,7 +8,7 @@ define(
         'jquery',
         'ko',
         'mage/storage',
-        'mage/translate'
+        'mage/translate',
     ],
     function (Component,$,ko,storage,$t) {
         'use strict';
@@ -27,12 +27,14 @@ define(
                     'additional_data': {
                         'installments': jQuery('#'+this.getCode() + '-installments').val(),
                         'quoteid': jQuery('#virtuspay-quote-id').val(),
-                        'pre_approved':  window.virtuspay.preApproved
+                        'pre_approved':  window.virtuspay.preApproved,
+                        'dob': jQuery('#virtuspay-dob').val()
                     }
                 };
             },
-            getDue: function () {
-                return window.checkoutConfig.payment.virtuspayboleto.due;
+            dobMask: function () {
+                jQuery('#virtuspay-dob').inputmask({"mask": "01/01/2000"});
+                return '';
             },
             changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
@@ -60,6 +62,7 @@ define(
                             jQuery('.virtuspay-message').html($t(txt));
                             jQuery('.virtuspay-consult-installments').hide();
                             jQuery('.virtuspay-message').show();
+                            jQuery('#virtuspay-quote-id').val(json.id);
                         } else if (json.preapproved === true) {
                             window.virtuspay.preApproved = true;
                             jQuery('#virtuspay-quote-id').val(json.id);

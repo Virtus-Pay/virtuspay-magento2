@@ -34,7 +34,7 @@ class ObserverforDisabledFrontendPg implements ObserverInterface
         $result = $observer->getEvent()->getResult();
         $method_instance = $observer->getEvent()->getMethodInstance();
         $quote = $observer->getEvent()->getQuote();
-        if ($method_instance->getCode() == 'virtuspayboleto'
+        if ($method_instance->getCode() == 'virtuspay'
             && !$this->scopeConfig->getValue("payment/virtuspay/enable")) {
             $result->setData('is_available', false);
         }

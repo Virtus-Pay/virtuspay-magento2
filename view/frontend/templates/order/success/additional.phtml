@@ -3,7 +3,7 @@
  * @var \VirtusPay\Magento2\Block\BoletoSuccess $block
  */
 
-if($block->getPaymentMethod() === "virtuspayboleto"): ?>
+if($block->getPaymentMethod() === "virtuspay"): ?>
 	<p>
 		<?php echo __('The barcode of your ticket bank is:') ?>
 		<input type="text" id="copyTarget" value="<?php echo $block->getBarCode(); ?>" class="input-text"> <button id="copyButton"  class="action primary continue">
