@@ -174,15 +174,21 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $shippingAddress->getStreet()[$this->helperData->getComplement()]
         );
         $dob = $quote->getCustomerDob();
+//        $this->logger->info("DOB: ". $dob);
         if (!$dob) {
             $dob = $payment->getAdditionalData('dob');
+            $this->logger->info("DOB: ". $dob);
+            if ($dob) {
+                $dob = substr($dob, 6, 4)
+                    . "-" . substr($dob, 3, 2) . "-" . substr($dob, 0, 2);
+            }
         }
-        if ($dob) {
-            $dob = substr($dob,6,4) . "-" . substr($dob,3,2) . "-" . substr($dob,0,2);
-        }
+
+//        $this->logger->info("DOB: ". $dob);
         if (!$dob) {
             $dob = "1900-01-01";
         }
+//        $this->logger->info("DOB: ". $dob);
 
         $customer = new \VirtusPay\ApiSDK\Model\Customer(
             $customer->getFirstname() . " " . $customer->getLastname(),
