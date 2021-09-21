@@ -11,8 +11,6 @@ use Magento\Store\Model\StoreManagerInterface;
 class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 {
 
-    const CALLBACK = "https://www.minhaloja.com.br/api2/virtus_callback";
-
     protected $checkoutSession;
 
     protected $remoteAddress;
@@ -199,6 +197,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $url = $this->storedManager->getStore()->getBaseUrl();
 
         $return_url = $url."checkout/onepage/success/";
+        $callback_url = $url."rest/V1/virtuspay/change-notification-status";
         $installments = 1;
         if ($payment->getAdditionalData('installments')) {
             $installments = $payment->getAdditionalData('installments');
@@ -212,7 +211,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $order->getGrandTotal(),
             $installments,
             $ordersProducts,
-            self::CALLBACK,
+            $callback_url,
             $return_url,
             "checkout",
             $payment->getAdditionalData('quoteid')
