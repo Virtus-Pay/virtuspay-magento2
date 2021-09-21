@@ -78,6 +78,10 @@ define(
                             jQuery('#virtuspay-quote-id').val(json.id);
                             window.virtuspay.total_amount = json.total_ammount;
                             window.virtuspay.cet = json.cet;
+                            window.virtuspay.preApproved = json.preapproved;
+                            if(json.preapproved === true) {
+                                jQuery('#virtuspay-placeorder').show();
+                            }
                             window.virtuspay_installments = [];
                             json.installments.forEach(function (installment) {
                                 window.virtuspay_installments[installment.installment] = {};

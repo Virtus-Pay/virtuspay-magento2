@@ -127,6 +127,11 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
      */
     public function createOrder($order, $payment): string
     {
+        if($payment->getAdditionalData('preApproved') !== true) {
+//            throw new \Exception('O pagamento não foi pré-aprovado');
+            $message = 'O pagamento não foi pré-aprovado';
+            throw new \Magento\Framework\Validator\Exception(__($message));
+        }
         $configuration = new \VirtusPay\ApiSDK\Configuration();
         $configuration->setEnvironment($this->helperData->getEnvironment());
 
