@@ -45,7 +45,7 @@ define(
                     return false;
                 }
                 return true;
-            }
+            },
             changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
                     event.preventDefault();
