@@ -23,18 +23,22 @@
         </div>
         <div class="div-virtuspay-dob">
             <label for="virtuspay-dob" class="label">
-                <span>Data de nascimento</span>
+                <span>Data de nascimento&nbsp;&nbsp;</span>
             </label>
-            <input type="text" size="20" name="virtuspay-dob"  class="input-text" id="virtuspay-dob"
-                   style="max-width: 50px!important;"
-                   data-bind="attr: { value: dobMask(), change: dobMask(), visible: true"/>
+            <input type="text" size="30" name="virtuspay-dob"  class="input-text" id="virtuspay-dob"
+                   style="max-width: 100px!important;min-width: 100px!important;"
+                   data-bind="attr: { value: dobMask(), validade: dobValidate(), change: dobMask(), visible: true"/>
         </div>
         <div class="virtuspay-consult-installments">
-            Descubra as condições que temos para você e parcele<br>
-            sua compra no boleto em até 15x com a VirtusPay<br>
-            <button data-bind="click: getQuote" id="consult_installments" class="virtuspay_button">CONSULTAR PARCELAS</button><br>
+            <p>Descubra as condições que temos para você e parcele<br>
+                sua compra no boleto em até 15x com a VirtusPay</p>
+            <div style="text-align: center;">
+            <button data-bind="click: getQuote" id="consult_installments"
+                    style="margin: 20px;"
+                    class="virtuspay_button">CONSULTAR PARCELAS</button><br>
+            </div>
             <div class="virtuspay-important">
-                * Importante
+                ** Importante
             </div>
             * Iremos usar os dados de seu cadastro aqui na loja para consultas as condições que temos para você<br>
             * Sujeito a análise de crédito

@@ -9,6 +9,7 @@ define(
         'ko',
         'mage/storage',
         'mage/translate',
+        'inputmask',
     ],
     function (Component,$,ko,storage,$t) {
         'use strict';
@@ -19,6 +20,9 @@ define(
             },
             initObservable: function () {
                 this._super();
+                jQuery(document).ready(() => {
+                    jQuery("#virtuspay-dob").mask("00/00/0000");
+                })
                 return this;
             },
             getData: function () {
@@ -33,9 +37,15 @@ define(
                 };
             },
             dobMask: function () {
-                jQuery('#virtuspay-dob').inputmask({"mask": "01/01/2000"});
+                jQuery("#virtuspay-dob").mask("00/00/0000");
                 return '';
             },
+            dobValidate: function () {
+                if(jQuery("#virtuspay-dob").val().length != 10) {
+                    return false;
+                }
+                return true;
+            }
             changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
                     event.preventDefault();

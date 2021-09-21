@@ -1,10 +1,23 @@
-.virtuspay-cc-number {
-    padding-left: 52px!important;
-    background-image: none!important;
-    background-size: 43px Auto!important;
-    background-repeat: no-repeat!important;
+.div-virtuspay-dob {
+    padding-bottom: 10px;
 }
 
-.div-virtuspay-dob {
+.virtuspay-consult-installments {
+    padding-top: 5px;
+}
+
+#virtuspay-dob {
+    width: 50px;
+    min-width: 50px;
+}
+
+.virtuspay_button {
     padding-bottom: 5px;
+    background-color: yellow;
+    color: blue;
+    text-
+}
+
+.virtuspay-important {
+    font-weight: bold;
 }

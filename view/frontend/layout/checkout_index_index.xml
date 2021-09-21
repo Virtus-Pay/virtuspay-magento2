@@ -4,6 +4,10 @@
         <css src="VirtusPay_Magento2::css/virtuspay.css"/>
     </head>
     <body>
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="virtuspay-initjs"
+                   template="VirtusPay_Magento2::initjs.phtml" />
+        </referenceContainer>
         <referenceBlock name="checkout.root">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">
