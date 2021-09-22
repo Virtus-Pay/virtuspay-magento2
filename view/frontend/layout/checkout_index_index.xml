@@ -21,7 +21,6 @@
                                             <item name="children" xsi:type="array">
                                                 <item name="payment" xsi:type="array">
                                                     <item name="children" xsi:type="array">
-<!--
                                                         <item name="additional-payment-validators" xsi:type="array">
                                                             <item name="children" xsi:type="array">
                                                                 <item name="virtuspay-validator" xsi:type="array">
@@ -29,7 +28,6 @@
                                                                 </item>
                                                             </item>
                                                         </item>
--->
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">

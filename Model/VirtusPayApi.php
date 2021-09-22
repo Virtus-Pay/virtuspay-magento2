@@ -127,8 +127,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
      */
     public function createOrder($order, $payment): string
     {
-        if($payment->getAdditionalData('preApproved') !== true) {
-//            throw new \Exception('O pagamento não foi pré-aprovado');
+        if($payment['preapproved'] !== "1") {
             $message = 'O pagamento não foi pré-aprovado';
             throw new \Magento\Framework\Validator\Exception(__($message));
         }
@@ -181,7 +180,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $dob = $quote->getCustomerDob();
 //        $this->logger->info("DOB: ". $dob);
         if (!$dob) {
-            $dob = $payment->getAdditionalData('dob');
+            $dob = $payment['dob'];
             $this->logger->info("DOB: ". $dob);
             if ($dob) {
                 $dob = substr($dob, 6, 4)
@@ -210,8 +209,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         $return_url = $url."checkout/onepage/success/";
         $callback_url = $url."rest/V1/virtuspay/change-notification-status";
         $installments = 1;
-        if ($payment->getAdditionalData('installments')) {
-            $installments = $payment->getAdditionalData('installments');
+        if ($payment['installments']) {
+            $installments = $payment['installments'];
         }
 
         $orderSDK = new \VirtusPay\ApiSDK\Model\Order(
@@ -225,7 +224,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $callback_url,
             $return_url,
             "checkout",
-            $payment->getAdditionalData('quoteid')
+            $payment['quoteid']
         );
 //        $this->checkoutSession->getPreapproved()
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();

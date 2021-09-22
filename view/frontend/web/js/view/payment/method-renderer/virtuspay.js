@@ -31,7 +31,7 @@ define(
                     'additional_data': {
                         'installments': jQuery('#'+this.getCode() + '-installments').val(),
                         'quoteid': jQuery('#virtuspay-quote-id').val(),
-                        'pre_approved':  window.virtuspay.preApproved,
+                        'preapproved':  window.virtuspay.preApproved,
                         'dob': jQuery('#virtuspay-dob').val()
                     }
                 };
@@ -42,6 +42,15 @@ define(
             },
             dobValidate: function () {
                 if(jQuery("#virtuspay-dob").val().length != 10) {
+                    return false;
+                }
+                let date = jQuery("#virtuspay-dob").val(); // 10/10/1980
+                date = date.substr(6,9) + '-' + date.substr(3,4) + '-' +  date.substr(0,1);
+
+                var before = new Date(date);
+                console.log(before.getFullYear());
+                var now = new Date();
+                if (before < now) {
                     return false;
                 }
                 return true;
