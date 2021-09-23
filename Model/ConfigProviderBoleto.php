@@ -38,29 +38,11 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
                     'due' => $this->getDue(),
                     'fullname' => $this->getFullName(),
                     'taxvat' => $this->getTaxVat(),
-                    'terms_url' => $this->getTermsUrl(),
-                    'terms_txt' => $this->getTermsTxt(),
-                    'antifraud_type' => $this->getAntiFraudType(),
-                    'antifraud_id' => $this->getAntiFraudId()
                 ],
             ],
         ] : [];
     }
 
-    protected function getInstruction()
-    {
-        return nl2br($this->escaper->escapeHtml($this->scopeConfig->getValue("payment/aditum_boleto/instruction")));
-    }
-
-    protected function getDue()
-    {
-        $day = (int)$this->scopeConfig->getValue("payment/aditum_boleto/expiration_days");
-        if ($day > 1) {
-            return nl2br(sprintf(__('Expiration in %s days'), $day));
-        } else {
-            return nl2br(sprintf(__('Expiration in %s day'), $day));
-        }
-    }
     public function getFullName()
     {
         if ($this->customer->isLoggedIn()) {
