@@ -8,7 +8,7 @@ define(
                     messageList.addErrorMessage({ message: $t('Selecione um número de parcelas válido.') });
                     return false;
                 }
-
+/* DOB DISABLED
                 if (jQuery("#virtuspay-dob").val().length != 10) {
                     messageList.addErrorMessage({ message: $t('Data de nascimento inválida') });
                     return false;
@@ -23,6 +23,7 @@ define(
                     messageList.addErrorMessage({ message: $t('Data de nascimento inválida') });
                     return false;
                 }
+ */
                 return true;
             }
         }

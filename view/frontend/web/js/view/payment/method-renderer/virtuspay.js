@@ -20,9 +20,12 @@ define(
             },
             initObservable: function () {
                 this._super();
+/* DOB DISABLED
                 jQuery(document).ready(() => {
                     jQuery("#virtuspay-dob").mask("00/00/0000");
                 })
+
+ */
                 return this;
             },
             getData: function () {
@@ -32,10 +35,11 @@ define(
                         'installments': jQuery('#'+this.getCode() + '-installments').val(),
                         'quoteid': jQuery('#virtuspay-quote-id').val(),
                         'preapproved':  window.virtuspay.preApproved,
-                        'dob': jQuery('#virtuspay-dob').val()
                     }
                 };
             },
+            // 'dob': jQuery('#virtuspay-dob').val()
+/* DOB DISABLED
             dobMask: function () {
                 jQuery("#virtuspay-dob").mask("00/00/0000");
                 return '';
@@ -55,6 +59,7 @@ define(
                 }
                 return true;
             },
+ */
             changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
                     event.preventDefault();
