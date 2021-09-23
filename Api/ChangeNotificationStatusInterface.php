@@ -8,8 +8,8 @@ interface ChangeNotificationStatusInterface
     /**
      * @api
      *
-     * @param string $transactionId
+     * @param string $transaction
      * @return mixed
      */
-    public function execute(string $transactionId);
+    public function execute(string $transaction);
 }

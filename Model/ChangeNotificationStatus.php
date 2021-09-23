@@ -40,17 +40,17 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
         $this->logger = $logger;
     }
 
-    public function execute(string $transactionId)
+    public function execute(string $transaction)
     {
 
         try {
             $collection = $this->collectionFactory->create();
             $result = $collection->getSelect()
-                ->where('txn_id = ?', $transactionId);
+                ->where('txn_id = ?', $transaction);
             $transactionData = $result->query()->fetch();
 
             $orderId = $transactionData['order_id'];
-            $data = $this->getOrderByTransactionSDK($transactionId);
+            $data = $this->getOrderByTransactionSDK($transaction);
 
             $this->changeStatus($data['status'], $orderId);
 
@@ -59,14 +59,14 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
         }
     }
 
-    private function getOrderByTransactionSDK(string $transactionId)
+    private function getOrderByTransactionSDK(string $transaction)
     {
         $response = "";
         $configuration = new \VirtusPay\ApiSDK\Configuration();
         $configuration->setEnvironment($this->helperData->getEnvironment(), $this->helperData->getToken());
 
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
-        $response = $gateway->getOrderByTransaction($transactionId);
+        $response = $gateway->getOrderByTransaction($transaction);
         $response = json_decode($response, true);
 
         if (!empty($response)) {
