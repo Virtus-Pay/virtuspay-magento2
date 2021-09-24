@@ -58,10 +58,6 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 
     public function getQuote(): ApiResponseInterface
     {
-
-        $configuration = new \VirtusPay\ApiSDK\Configuration();
-        $configuration->setEnvironment($this->helperData->getEnvironment(),
-            $this->helperData->getToken());
         $quote = $this->checkoutSession->getQuote();
 
         $totalAmount = $quote->getGrandTotal();
@@ -89,8 +85,12 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             return $this->apiResponse;
         }
 
+        $configuration = new \VirtusPay\ApiSDK\Configuration();
+        $configuration->setEnvironment($this->helperData->getEnvironment(),
+            $this->helperData->getToken());
+
         $gateway = new \VirtusPay\ApiSDK\Gateway\PreAprovacao();
-        $response = $gateway->execute($model);
+        $response = $gateway->execute($model, $configuration);
 
         $this->definePreApproved($response);
 
@@ -229,6 +229,6 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
         );
 //        $this->checkoutSession->getPreapproved()
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
-        return $gateway->save($orderSDK);
+        return $gateway->save($orderSDK, $configuration);
     }
 }
