@@ -5,12 +5,12 @@
         <section id="payment">
             <group id="virtuspay" translate="label comment" sortOrder="330" showInDefault="1"
                    showInWebsite="1" showInStore="1">
-                <label>Virtus Pay</label>
-                <comment>Boleto parcelado Virtus Pay</comment>
+                <label>VirtusPay</label>
+                <comment>Boleto parcelado VirtusPay</comment>
                 <field id="enable" translate="label comment" type="select" sortOrder="5"
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Ativar</label>
-                    <comment>Ativar boleto parcelado Virtus Pay</comment>
+                    <comment>Ativar boleto parcelado VirtusPay</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="environment" translate="label comment" type="select" sortOrder="10"
