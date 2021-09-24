@@ -34,8 +34,6 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
         return $this->method->isAvailable() ? [
             'payment' => [
                 'virtuspay' => [
-                    'instruction' =>  $this->getInstruction(),
-                    'due' => $this->getDue(),
                     'fullname' => $this->getFullName(),
                     'taxvat' => $this->getTaxVat(),
                 ],
