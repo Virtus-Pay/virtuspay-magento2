@@ -201,6 +201,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             1500.00,
             $customer->getEmail(),
             $shippingAddress->getTelephone(),
+            "",
             $customerAddress
         );
 
