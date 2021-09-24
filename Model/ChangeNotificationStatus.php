@@ -67,7 +67,7 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
             $this->helperData->getToken());
 
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
-        $response = $gateway->getOrderByTransaction($transaction);
+        $response = $gateway->getOrderByTransaction($transaction, $configuration);
         $response = json_decode($response, true);
 
         if (!empty($response)) {
