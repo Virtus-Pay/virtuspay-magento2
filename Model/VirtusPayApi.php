@@ -60,8 +60,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
     {
 
         $configuration = new \VirtusPay\ApiSDK\Configuration();
-        $configuration->setEnvironment($this->helperData->getEnvironment());
-
+        $configuration->setEnvironment($this->helperData->getEnvironment(),
+            $this->helperData->getToken());
         $quote = $this->checkoutSession->getQuote();
 
         $totalAmount = $quote->getGrandTotal();
@@ -132,7 +132,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             throw new \Magento\Framework\Validator\Exception(__($message));
         }
         $configuration = new \VirtusPay\ApiSDK\Configuration();
-        $configuration->setEnvironment($this->helperData->getEnvironment());
+        $configuration->setEnvironment($this->helperData->getEnvironment(),
+            $this->helperData->getToken());
 
         $itemSDK = [];
         $productsOrders = [];
@@ -200,7 +201,6 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             1500.00,
             $customer->getEmail(),
             $shippingAddress->getTelephone(),
-            "1980-10-10",
             $customerAddress
         );
 
