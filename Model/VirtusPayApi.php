@@ -214,6 +214,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $installments = $payment['installments'];
         }
 
+        $othersInfos = $this->othersInfo->getOthersInfo($quote->getCustomer()->getEmail());
+
         $orderSDK = new \VirtusPay\ApiSDK\Model\Order(
             $order->getIncrementId(),
             $customer,
@@ -225,7 +227,8 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $callback_url,
             $return_url,
             "checkout",
-            $payment['quoteid']
+            $payment['quoteid'],
+            $othersInfos
         );
 //        $this->checkoutSession->getPreapproved()
         $gateway = new \VirtusPay\ApiSDK\Gateway\Order();
