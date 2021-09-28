@@ -2,11 +2,13 @@
 
 namespace VirtusPay\Magento2\Model;
 
+use VirtusPay\Magento2\Model\Method\BoletoParcelado;
 use VirtusPay\Magento2\Api\ChangeNotificationStatusInterface;
 use VirtusPay\Magento2\Helper\Data as HelperData;
 use Magento\Sales\Model\ResourceModel\Order\Payment\Transaction\CollectionFactory;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Sales\Api\OrderManagementInterface;
 
 class ChangeNotificationStatus implements ChangeNotificationStatusInterface
 {
@@ -20,6 +22,8 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
         'E' => 'complete'
     ];
 
+    private $boletoParcelado;
+
     private $helperData;
 
     private $collectionFactory;
@@ -28,16 +32,56 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
 
     private $logger;
 
+    private $converterOrder;
+
+    private $orderManagementInterface;
+
     public function __construct(
+        BoletoParcelado $boletoParcelado,
         HelperData $helperData,
         CollectionFactory $collectionFactory,
         OrderRepositoryInterface $orderRepositoryInterface,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \Magento\Sales\Model\Convert\Order $converterOrder,
+        OrderManagementInterface $orderManagementInterface
     ) {
+        $this->boletoParcelado = $boletoParcelado;
         $this->helperData = $helperData;
         $this->collectionFactory = $collectionFactory;
         $this->orderRepositoryInterface = $orderRepositoryInterface;
         $this->logger = $logger;
+        $this->converterOrder = $converterOrder;
+        $this->orderManagementInterface = $orderManagementInterface;
+    }
+
+    private function createShip($order)
+    {
+        $shipment = $this->converterOrder->toShipment($order);
+        // Loop through order items
+        foreach ($order->getAllItems() AS $orderItem) {
+            // Check if order item has qty to ship or is virtual
+            if (! $orderItem->getQtyToShip() || $orderItem->getIsVirtual()) {
+                continue;
+            }
+            $qtyShipped = $orderItem->getQtyToShip();
+            // Create shipment item with qty
+            $shipmentItem = $this->converterOrder->itemToShipmentItem($orderItem)->setQty($qtyShipped);
+            // Add shipment item to shipment
+            $shipment->addItem($shipmentItem);
+        }
+
+        // Register shipment
+        $shipment->register();
+        $shipment->getOrder()->setIsInProcess(true);
+
+        try {
+            // Save created shipment and order
+            $shipment->save();
+            $shipment->getOrder()->save();
+
+        } catch (\Exception $e) {
+            echo "Shipment Not Created". $e->getMessage(); exit;
+        }
     }
 
     public function execute(string $transaction)
@@ -82,8 +126,19 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
         $order = $this->orderRepositoryInterface->get($orderId);
         $order->setStatus(self::STATUS[$status]);
         $order->setState(self::STATUS[$status]);
+        $this->orderRepositoryInterface->save($order);
 
-        return $this->orderRepositoryInterface->save($order);
+        if (self::STATUS[$status] == "processing") {
+            $this->boletoParcelado->invoiceOrder($order);
+        }
+
+        if (self::STATUS[$status] == "canceled") {
+            $this->orderManagementInterface->cancel($orderId);
+        }
+
+        if (self::STATUS[$status] == "complete") {
+            $this->createShip($order);
+        }
     }
 
 }

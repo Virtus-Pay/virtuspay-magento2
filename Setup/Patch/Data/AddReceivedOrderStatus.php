@@ -73,8 +73,8 @@ class AddReceivedOrderStatus implements DataPatchInterface
     public function apply()
     {
 
-        $this->createStatus('approved', 'Approved');
-        $this->createStatus('refused', 'Refused');
+        $this->createStatus('approved', 'approved');
+        $this->createStatus('refused', 'refused');
 
         return $this;
     }
