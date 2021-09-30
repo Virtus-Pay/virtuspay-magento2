@@ -207,7 +207,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
 
         $url = $this->storedManager->getStore()->getBaseUrl();
 
-        $return_url = $url."checkout/onepage/success/";
+        $return_url = $url."sales/order/history/";
         $callback_url = $url."rest/V1/virtuspay/change-notification-status";
         $installments = 1;
         if ($payment['installments']) {
