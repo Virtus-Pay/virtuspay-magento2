@@ -27,12 +27,14 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_scopeConfig;
     protected $_invoiceService;
     protected $_transactionFactory;
+    protected $statusCollectionFactory;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
         \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory,
+        \Magento\Sales\Model\ResourceModel\Order\Status\CollectionFactory $statusCollectionFactory,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
@@ -63,6 +65,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $this->virtusPayApi = $virtusPayApi;
         $this->adminSession = $adminSession;
         $this->logger = $mlogger;
+        $this->statusCollectionFactory = $statusCollectionFactory;
         $this->_scopeConfig = $scopeConfig;
         $this->_invoiceService = $invoiceService;
         $this->_transactionFactory = $transactionFactory;
@@ -139,7 +142,12 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-        $order->setState('processing')->setStatus('processing');
+        $statusPaid = $this->scopeConfig->getValue(
+            'payment/virtuspay/status_paid',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $order->setState('processing')->setStatus($statusPaid);
+
         $order->save();
     }
 }

@@ -25,12 +25,6 @@
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Token</label>
                 </field>
-<!--
-                <field id="client_secret" translate="label comment" type="text" sortOrder="30"
-                       showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Merchant Token</label>
-                </field>
--->
                 <field id="street" translate="label" type="select" sortOrder="100"
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Definições do Endereço - Rua</label>
@@ -50,6 +44,12 @@
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Definições do Endereço - Bairro</label>
                     <source_model>VirtusPay\Magento2\Model\Config\AddressLines</source_model>
+                </field>
+                <field id="status_paid" translate="label" type="select" sortOrder="140"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Status do pedido pagamento recebido</label>
+                    <comment>Selecione o status do Magento para pagamento recebido (state processing)</comment>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
                 </field>
             </group>
         </section>
