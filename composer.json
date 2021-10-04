@@ -1,7 +1,7 @@
 {
     "name": "virtuspay/magento2-payment",
     "description": "Magento 2 VirtusPay Payment Method",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "require": {
         "php": ">=7.1.0",
         "virtuspay/virtuspay-php-sdk": ">=1.0.4",

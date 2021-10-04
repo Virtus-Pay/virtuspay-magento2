@@ -4,9 +4,11 @@ define(
         'use strict';
         return {
             validate: function () {
-                if(jQuery('#virtuspay-installments').val() === "") {
-                    messageList.addErrorMessage({ message: $t('Selecione um número de parcelas válido.') });
-                    return false;
+                if(jQuery('input[name="payment[method]"]:checked').val() === 'virtuspay') {
+                    if (jQuery('#virtuspay-installments').val() === "") {
+                        messageList.addErrorMessage({message: $t('Selecione um número de parcelas válido.')});
+                        return false;
+                    }
                 }
 /* DOB DISABLED
                 if (jQuery("#virtuspay-dob").val().length != 10) {
