@@ -12,14 +12,21 @@ use Magento\Sales\Api\OrderManagementInterface;
 
 class ChangeNotificationStatus implements ChangeNotificationStatusInterface
 {
-
+/*
+-- "Status VirtusPay" [Status Loja]
+- *P*endente [ ... ]
+- *E*fetivado [ Processando]
+- *C*ancelada [Cancelamento]
+- *R*ecusada [ ... ]
+- *A*nalisada [ ... ]
+ */
     const STATUS = [
         'P' => 'pending_payment',
-        'N' => 'processing',
-        'A' => 'approved',
-        'R' => 'refused',
+        'N' => 'pending_payment',
+        'A' => 'pending_payment',
+        'R' => 'canceled',
         'C' => 'canceled',
-        'E' => 'complete'
+        'E' => 'processing'
     ];
 
     private $boletoParcelado;
@@ -124,21 +131,21 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
     private function changeStatus(string $status, string $orderId)
     {
         $order = $this->orderRepositoryInterface->get($orderId);
-        $order->setStatus(self::STATUS[$status]);
-        $order->setState(self::STATUS[$status]);
-        $this->orderRepositoryInterface->save($order);
 
         if (self::STATUS[$status] == "processing") {
             $this->boletoParcelado->invoiceOrder($order);
         }
 
         if (self::STATUS[$status] == "canceled") {
+            $order->setStatus(self::STATUS[$status]);
+            $order->setState(self::STATUS[$status]);
+            $this->orderRepositoryInterface->save($order);
             $this->orderManagementInterface->cancel($orderId);
         }
 
-        if (self::STATUS[$status] == "complete") {
-            $this->createShip($order);
-        }
+//        if (self::STATUS[$status] == "complete") {
+//            $this->createShip($order);
+//        }
     }
 
 }
