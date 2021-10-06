@@ -137,9 +137,9 @@ class ChangeNotificationStatus implements ChangeNotificationStatusInterface
         }
 
         if (self::STATUS[$status] == "canceled") {
-            $order->setStatus(self::STATUS[$status]);
-            $order->setState(self::STATUS[$status]);
-            $this->orderRepositoryInterface->save($order);
+//            $order->setStatus(self::STATUS[$status]);
+//            $order->setState(self::STATUS[$status]);
+//            $this->orderRepositoryInterface->save($order);
             $this->orderManagementInterface->cancel($orderId);
         }
 

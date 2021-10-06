@@ -66,8 +66,8 @@ class OrderCreate implements ObserverInterface
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-        $order->setState('processing')->setStatus('processing');
-        $order->save();
+//        $order->setState('processing')->setStatus('processing');
+//        $order->save();
     }
     public function cancelOrder($order)
     {
