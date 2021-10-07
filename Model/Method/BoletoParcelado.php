@@ -146,7 +146,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             'payment/virtuspay/status_paid',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $order->setState('processing')->setStatus($statusPaid);
+        $order->setState('processing')->setStatus('processing');
 
         $order->save();
     }
