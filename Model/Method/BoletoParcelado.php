@@ -3,6 +3,7 @@
 namespace VirtusPay\Magento2\Model\Method;
 
 use Magento\Directory\Helper\Data as DirectoryHelper;
+use Magento\Sales\Api\OrderRepositoryInterface;
 
 class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -28,6 +29,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_invoiceService;
     protected $_transactionFactory;
     protected $statusCollectionFactory;
+    protected $orderRepository;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -46,6 +48,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        OrderRepositoryInterface $orderRepository,
         array $data = [],
         DirectoryHelper $directory = null
     ) {
@@ -70,6 +73,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_invoiceService = $invoiceService;
         $this->_transactionFactory = $transactionFactory;
         $this->messageManager = $messageManager;
+        $this->orderRepository = $orderRepository;
     }
     public function order(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
@@ -133,6 +137,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $sql = "UPDATE " . $tableName . " SET status = 'pending', state = 'new' WHERE entity_id = " . $incrementId;
         $connection->query($sql);
     }
+    
     public function invoiceOrder($order)
     {
         $invoice = $this->_invoiceService->prepareInvoice($order);
@@ -142,12 +147,13 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-        $statusPaid = $this->scopeConfig->getValue(
-            'payment/virtuspay/status_paid',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        // $statusPaid = $this->scopeConfig->getValue(
+        //     'payment/virtuspay/status_paid',
+        //     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        // );
         $order->setState('processing')->setStatus('processing');
 
-        $order->save();
+        // $order->save();
+        $this->orderRepository->save($order);
     }
 }
