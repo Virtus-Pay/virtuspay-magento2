@@ -38,6 +38,11 @@ define(
                     }
                 };
             },
+
+            getLogo: function () {
+                return window.checkoutConfig.payment.virtuspay.logo;
+            },
+
             // 'dob': jQuery('#virtuspay-dob').val()
 /* DOB DISABLED
             dobMask: function () {
@@ -63,10 +68,10 @@ define(
             changeSelect: function () {
                 document.getElementById('virtuspay-installments').addEventListener("change",function () {
                     event.preventDefault();
-                    jQuery('#virtuspay-installment-details').html('' +
-                        'Valor total: R$' + window.virtuspay_installments[$('#virtuspay-installments').val()].total +
-                        '');
-                    jQuery('#virtuspay-installment-details').show();
+                    // jQuery('#virtuspay-installment-details').html('' +
+                    //     'Valor total: R$' + window.virtuspay_installments[$('#virtuspay-installments').val()].total +
+                    //     '');
+                    // jQuery('#virtuspay-installment-details').show();
                 });
             },
             getQuote: function () {
@@ -109,6 +114,7 @@ define(
                                 }));
                             });
                             jQuery('.virtuspay-consult-installments').hide();
+                            jQuery('.virtuspay-oba').show();
                             jQuery('.virtuspay-installments-list').show();
                         }
                     }

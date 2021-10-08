@@ -31,6 +31,9 @@
                    data-bind="attr: { value: dobMask(), validade: dobValidate(), change: dobMask(), visible: true"/>
         </div>
 -->
+        <div class="virtuspay-logo">
+            <img data-bind="attr: { src: getLogo(), style: { width: '200px' } }" width="200px" />
+        </div>
         <div class="virtuspay-consult-installments">
             <p>Descubra as condições que temos para você e parcele<br>
                 sua compra no boleto em até 15x com a VirtusPay</p>
@@ -46,9 +49,16 @@
             * Sujeito a análise de crédito
         </div>
         <div class="virtuspay-installments-list" style="display: none;">
+            <div class="virtuspay-oba virtuspay-important" style="display: none;">Oba! Temos essas condições pra você!</div>
             <select name="virtuspay-installments" id="virtuspay-installments" data-bind="event:{ select: changeSelect()}">
                 <option value="">Escolha em quantas vezes deseja parcelar</option>
             </select><br><br>
+            <div class="virtuspay-oba" style="display: none;">
+                <p class="virtuspay-important">Próximos passos:</p>
+                <p>* Escolha em quantas vezes deseja parcelar</p>
+                <p>* Siga os próximos passos para finalizar seu pedido</p>
+                <p>* Pague a entrada para liberar sua compra na loja!</p>
+            </div>
             <div id="virtuspay-installment-details" style="display: none;">
 
             </div>

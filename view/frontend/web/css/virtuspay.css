@@ -11,12 +11,23 @@
     min-width: 50px;
 }
 
-.virtuspay_button {
-    padding-bottom: 5px;
-    background-color: yellow;
-    color: blue;
+.virtuspay_button, .virtuspay_button:hover {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #ffdb00;
+    color: #1a34c8;
+    border-radius: 0%;
+    border-width: 0;
 }
 
 .virtuspay-important {
     font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.virtuspay-logo {
+    width: 100%;
+    text-align: right;
 }

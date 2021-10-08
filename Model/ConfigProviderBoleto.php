@@ -13,6 +13,7 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
     protected $escaper;
     protected $scopeConfig;
     protected $customer;
+    protected $ccConfig;
 
     public function __construct(
         PaymentHelper $paymentHelper,
@@ -20,12 +21,14 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customer,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\CcConfig $ccConfig
     ) {
         $this->escaper = $escaper;
         $this->method = $paymentHelper->getMethodInstance($this->methodCode);
         $this->scopeConfig = $scopeConfig;
         $this->customer = $customer;
+        $this->ccConfig = $ccConfig;
         parent::__construct($scopeConfig,$assetRepo,$storeManager);
     }
 
@@ -36,9 +39,17 @@ class ConfigProviderBoleto extends \VirtusPay\Magento2\Model\ConfigProvider impl
                 'virtuspay' => [
                     'fullname' => $this->getFullName(),
                     'taxvat' => $this->getTaxVat(),
+                    'logo' => $this->getLogo()
                 ],
             ],
         ] : [];
+    }
+
+    public function getLogo()
+    {
+        $asset = $this->ccConfig
+            ->createAsset('VirtusPay_Magento2::images/logo_virtuspay_azulgrad_400.png');
+        return $asset->getUrl();
     }
 
     public function getFullName()
