@@ -137,7 +137,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $sql = "UPDATE " . $tableName . " SET status = 'pending', state = 'new' WHERE entity_id = " . $incrementId;
         $connection->query($sql);
     }
-    
+
     public function invoiceOrder($order)
     {
         $invoice = $this->_invoiceService->prepareInvoice($order);
@@ -147,11 +147,11 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-        // $statusPaid = $this->scopeConfig->getValue(
-        //     'payment/virtuspay/status_paid',
-        //     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        // );
-        $order->setState('processing')->setStatus('processing');
+         $statusPaid = $this->scopeConfig->getValue(
+             'payment/virtuspay/status_paid',
+             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+         );
+        $order->setState('processing')->setStatus($statusPaid);
 
         // $order->save();
         $this->orderRepository->save($order);
