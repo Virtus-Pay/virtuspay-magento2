@@ -147,7 +147,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-         $statusPaid = $this->scopeConfig->getValue(
+         $statusPaid = $this->_scopeConfig->getValue(
              'payment/virtuspay/status_paid',
              \Magento\Store\Model\ScopeInterface::SCOPE_STORE
          );
