@@ -138,7 +138,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
         $connection->query($sql);
     }
 
-    public function invoiceOrder($order)
+    public function invoiceOrder(\Magento\Sales\Api\Data\OrderInterface $order)
     {
         $invoice = $this->_invoiceService->prepareInvoice($order);
         $invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
@@ -152,6 +152,7 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
              \Magento\Store\Model\ScopeInterface::SCOPE_STORE
          );
         $order->setState('processing')->setStatus($statusPaid);
+        $order->addCommentToStatusHistory('Pagamento recebido.');
 
         // $order->save();
         $this->orderRepository->save($order);
