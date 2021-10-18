@@ -140,6 +140,11 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function invoiceOrder(\Magento\Sales\Api\Data\OrderInterface $order)
     {
+        $statusPaid = $this->_scopeConfig->getValue(
+            'payment/virtuspay/status_paid',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $order->setState('processing')->setStatus($statusPaid);
         $invoice = $this->_invoiceService->prepareInvoice($order);
         $invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
         $invoice->register();
@@ -147,12 +152,6 @@ class BoletoParcelado extends \Magento\Payment\Model\Method\AbstractMethod
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
         $transaction->save();
-         $statusPaid = $this->_scopeConfig->getValue(
-             'payment/virtuspay/status_paid',
-             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-         );
-        $order->setState('processing')->setStatus($statusPaid);
-        $order->addCommentToStatusHistory('Pagamento recebido.');
 
         // $order->save();
         $this->orderRepository->save($order);
