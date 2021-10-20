@@ -84,7 +84,16 @@ define(
                     if (msg) {
                         console.log(msg);
                         window.virtuspay.cet = "";
-                        var json = JSON.parse(msg.response);
+                        try {
+                            var json = JSON.parse(msg.response);
+                        } catch (e) {
+                            var txt = 'Houve um erro na requisição.<br>' +
+                                'Por favor selecione outro método de pagamento ou entre em contato com o SAC.';
+                            jQuery('.virtuspay-message').html($t(txt));
+                            jQuery('.virtuspay-consult-installments').hide();
+                            jQuery('.virtuspay-message').show();
+                            jQuery('body').trigger('processStop');
+                        }
                         if (json.preapproved === false) {
                             window.virtuspay.preApproved = false;
                             var txt = 'No pre-approved conditions found.';
