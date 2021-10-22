@@ -96,7 +96,7 @@ define(
                         }
                         if (json.preapproved === false) {
                             window.virtuspay.preApproved = false;
-                            var txt = 'No pre-approved conditions found.';
+                            var txt = 'Não foram encontradas condições pré-aprovadas.';
                             jQuery('.virtuspay-message').html($t(txt));
                             jQuery('.virtuspay-consult-installments').hide();
                             jQuery('.virtuspay-message').show();
