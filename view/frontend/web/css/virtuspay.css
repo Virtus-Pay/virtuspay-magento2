@@ -31,3 +31,10 @@
     width: 100%;
     text-align: right;
 }
+
+#virtuspay-placeorder {
+    background-color: #ffdb00;
+    color: #1a34c8;
+    border-radius: 0%;
+    border-width: 0;
+}

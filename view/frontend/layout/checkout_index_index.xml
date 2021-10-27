@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="VirtusPay_Magento2::css/virtuspay.css"/>
+        <css src="https://use.fontawesome.com/releases/v5.7.1/css/all.css" src_type="url"/>
     </head>
     <body>
         <referenceContainer name="header-wrapper">

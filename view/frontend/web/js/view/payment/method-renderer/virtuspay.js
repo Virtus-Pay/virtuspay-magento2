@@ -119,7 +119,9 @@ define(
                                 window.virtuspay_installments[installment.installment].interest = installment.interest;
                                 jQuery('#virtuspay-installments').append($('<option>', {
                                     value: installment.installment,
-                                    text: installment.installment + ' parcelas de R$' + installment.down_payment
+                                    text: installment.installment + 'x de R$' + installment.down_payment
+                                    + ' - Total: R$' + installment.total + " - Juros de " + installment.interest
+                                    + ' a.m.'
                                 }));
                             });
                             jQuery('.virtuspay-consult-installments').hide();

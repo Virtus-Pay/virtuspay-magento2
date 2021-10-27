@@ -16,7 +16,7 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
-        <div class="payment-method-billing-address">
+        <div class="payment-method-billing-address" style="display: none;">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
@@ -45,19 +45,20 @@
             <div class="virtuspay-important">
                 ** Importante
             </div>
-            * Iremos usar os dados de seu cadastro aqui na loja para consultas as condições que temos para você<br>
+            * Iremos usar os dados de seu cadastro aqui na loja para consultar as condições que temos para você<br>
             * Sujeito a análise de crédito
         </div>
         <div class="virtuspay-installments-list" style="display: none;">
             <div class="virtuspay-oba virtuspay-important" style="display: none;">Oba! Temos essas condições pra você!</div>
+            <p>Escolha em quantas vezes deseja parcelar</p>
             <select name="virtuspay-installments" id="virtuspay-installments" data-bind="event:{ select: changeSelect()}">
-                <option value="">Escolha em quantas vezes deseja parcelar</option>
+<!--                <option value="">Escolha em quantas vezes deseja parcelar</option> -->
             </select><br><br>
             <div class="virtuspay-oba" style="display: none;">
-                <p class="virtuspay-important">Próximos passos:</p>
-                <p>* Escolha em quantas vezes deseja parcelar</p>
-                <p>* Siga os próximos passos para finalizar seu pedido</p>
-                <p>* Pague a entrada para liberar sua compra na loja!</p>
+                <p><b>Próximos passos:</b></p>
+                <p><i class="fas fa-check-circle" style="color:#1a34c8"></i> Escolha em quantas vezes deseja parcelar</p>
+                <p><i class="fas fa-check-circle" style="color:#1a34c8"></i> Siga os próximos passos para finalizar seu pedido</p>
+                <p><i class="fas fa-check-circle" style="color:#1a34c8"></i> Pague a entrada para liberar sua compra na loja!</p>
             </div>
             <div id="virtuspay-installment-details" style="display: none;">
 
@@ -90,6 +91,14 @@
                         disabled>
                     <span data-bind="text: $t('Place Order')"></span>
                 </button>
+            </div>
+        </div>
+        <div class="virtuspay-attention-div" >
+            <div class="virtuspay-attention-important">
+                <i class="fa fa-exclamation-triangle" style="color:#1a34c8"></i><b> Importante</b>
+            </div>
+            <div class="virtuspay-attention-txt">
+                * Fique atento ao seu E-mail e WhatsApp! Itemos pedir a validação de seus dados para finalização de seu pedido.
             </div>
         </div>
     </div>
