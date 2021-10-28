@@ -155,8 +155,11 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $ordersProducts = implode(";", $productsOrders);
             $modelItems = new \VirtusPay\ApiSDK\Model\Items($itemSDK);
         }
-
         $billingAddres = $quote->getBillingAddress();
+        $complement = "";
+        if (isset($billingAddres->getStreet()[$this->helperData->getComplement()])) {
+            $complement = $billingAddres = $quote->getBillingAddress();
+        }
         $deliveryAddress = new \VirtusPay\ApiSDK\Model\DeliveryAddress(
             $this->getRegionCodeById($billingAddres->getRegionId()),
             $billingAddres->getCity(),
@@ -164,7 +167,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $billingAddres->getStreet()[$this->helperData->getStreet()],
             $billingAddres->getStreet()[$this->helperData->getNumber()],
             str_replace("-", "", $billingAddres->getPostcode()),
-            $billingAddres->getStreet()[$this->helperData->getComplement()]
+            $complement
         );
 
         $shippingAddress = $quote->getShippingAddress();

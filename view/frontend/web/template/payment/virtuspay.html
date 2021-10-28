@@ -36,7 +36,7 @@
         </div>
         <div class="virtuspay-consult-installments">
             <p>Descubra as condições que temos para você e parcele<br>
-                sua compra no boleto em até 15x com a VirtusPay</p>
+                sua compra no boleto em até 24x com a VirtusPay</p>
             <div style="text-align: center;">
             <button data-bind="click: getQuote" id="consult_installments"
                     style="margin: 20px;"
@@ -50,9 +50,9 @@
         </div>
         <div class="virtuspay-installments-list" style="display: none;">
             <div class="virtuspay-oba virtuspay-important" style="display: none;">Oba! Temos essas condições pra você!</div>
-            <p>Escolha em quantas vezes deseja parcelar</p>
+<!--            <p>Escolha em quantas vezes deseja parcelar</p> -->
             <select name="virtuspay-installments" id="virtuspay-installments" data-bind="event:{ select: changeSelect()}">
-<!--                <option value="">Escolha em quantas vezes deseja parcelar</option> -->
+                <option value="">Escolha em quantas vezes deseja parcelar</option>
             </select><br><br>
             <div class="virtuspay-oba" style="display: none;">
                 <p><b>Próximos passos:</b></p>
@@ -93,7 +93,7 @@
                 </button>
             </div>
         </div>
-        <div class="virtuspay-attention-div" >
+        <div class="virtuspay-attention-div" style="display: none;" >
             <div class="virtuspay-attention-important">
                 <i class="fa fa-exclamation-triangle" style="color:#1a34c8"></i><b> Importante</b>
             </div>
