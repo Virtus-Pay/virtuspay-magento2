@@ -155,10 +155,11 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $ordersProducts = implode(";", $productsOrders);
             $modelItems = new \VirtusPay\ApiSDK\Model\Items($itemSDK);
         }
+
         $billingAddres = $quote->getBillingAddress();
-        $complement = "";
+        $billingComplement = "";
         if (isset($billingAddres->getStreet()[$this->helperData->getComplement()])) {
-            $complement = $billingAddres = $quote->getBillingAddress();
+            $billingComplement = $billingAddres->getStreet()[$this->helperData->getComplement()];
         }
         $deliveryAddress = new \VirtusPay\ApiSDK\Model\DeliveryAddress(
             $this->getRegionCodeById($billingAddres->getRegionId()),
@@ -167,10 +168,14 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $billingAddres->getStreet()[$this->helperData->getStreet()],
             $billingAddres->getStreet()[$this->helperData->getNumber()],
             str_replace("-", "", $billingAddres->getPostcode()),
-            $complement
+            $billingComplement
         );
 
         $shippingAddress = $quote->getShippingAddress();
+        $shippingComplement = "";
+        if (isset($shippingAddress->getStreet()[$this->helperData->getComplement()])) {
+            $shippingComplement = $shippingAddress->getStreet()[$this->helperData->getComplement()];
+        }
         $customerAddress = new \VirtusPay\ApiSDK\Model\CustomerAddress(
             $this->getRegionCodeById($shippingAddress->getRegionId()),
             $shippingAddress->getCity(),
@@ -178,7 +183,7 @@ class VirtusPayApi implements \VirtusPay\Magento2\Api\VirtusPayApiInterface
             $shippingAddress->getStreet()[$this->helperData->getStreet()],
             $shippingAddress->getStreet()[$this->helperData->getNumber()],
             str_replace("-", "", $billingAddres->getPostcode()),
-            $shippingAddress->getStreet()[$this->helperData->getComplement()]
+            $shippingComplement
         );
         $dob = $quote->getCustomerDob();
         /* DOB DISABLED
