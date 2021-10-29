@@ -96,8 +96,11 @@ define(
                         }
                         if (json.preapproved === false) {
                             window.virtuspay.preApproved = false;
-                            var txt = 'Não foram encontradas condições pré-aprovadas.';
-                            jQuery('.virtuspay-message').html($t(txt));
+                            var txt = '<b>Após consultar seus dados, infelizmente não há condições<br>' +
+                                'de parcelamento com a VirtusPay para você no momento :(</b>' +
+                                'Não deixe de comprar! Continue com outro meio de pagamento'
+
+                            jQuery('.virtuspay-message').html(txt);
                             jQuery('.virtuspay-consult-installments').hide();
                             jQuery('.virtuspay-message').show();
                             jQuery('#virtuspay-quote-id').val(json.id);
@@ -120,7 +123,7 @@ define(
                                     value: installment.installment,
                                     text: installment.installment + 'x de R$' + installment.down_payment
                                     + ' - Total: R$' + installment.total + " - Juros de " + installment.interest
-                                    + ' a.m.'
+                                    + '% a.m.'
                                 }));
                             });
                             jQuery('.virtuspay-consult-installments').hide();

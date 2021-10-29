@@ -35,11 +35,12 @@
             <img data-bind="attr: { src: getLogo(), style: { width: '200px' } }" width="200px" />
         </div>
         <div class="virtuspay-consult-installments">
-            <p>Descubra as condições que temos para você e parcele<br>
-                sua compra no boleto em até 24x com a VirtusPay</p>
+            <p><b>Descubra as condições que temos para você e parcele<br>
+                sua compra no boleto em até 24x com a VirtusPay</b></p>
             <div style="text-align: center;">
             <button data-bind="click: getQuote" id="consult_installments"
-                    style="margin: 20px;"
+                    style="padding-top: 20px;padding-bottom: 20px;
+                    margin: 20px;font-size: 1.8rem;"
                     class="virtuspay_button">CONSULTAR PARCELAS</button><br>
             </div>
             <div class="virtuspay-important">
@@ -94,7 +95,7 @@
             </div>
         </div>
         <div class="virtuspay-attention-div" style="display: none;" >
-            <div class="virtuspay-attention-important">
+            <div class="virtuspay-attention-important" style="margin-bottom: 10px;">
                 <i class="fa fa-exclamation-triangle" style="color:#1a34c8"></i><b> Importante</b>
             </div>
             <div class="virtuspay-attention-txt">
